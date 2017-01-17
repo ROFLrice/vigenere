@@ -39,58 +39,58 @@ int main(int argc, string argv[])
             //iterate over the string in plain
             for(int i = 0, j = 0, length = strlen(plain); i < length; i++, j++)
             {
-            // start the key again if key shorter than PlainText
-            if (j >= strlen(key))
-            {
-                j = 0;
-            }
+                // start the key again if key shorter than PlainText
+                if (j >= strlen(key))
+                {
+                    j = 0;
+                }
                 
-            key_Value = key[j];
+                key_Value = key[j];
                 
-            // skip key[j] if plain[i] != alpha character
-            if (!isalpha(plain[i]))
-            {
-                j = (j - 1);
-            }  
+                // skip key[j] if plain[i] != alpha character
+                if (!isalpha(plain[i]))
+                {
+                    j = (j - 1);
+                }  
             
-            // converts to alphabet index for uppercase
-            if (isupper(key_Value))
-            {
-                key_Value = (key_Value -  'A');
-            }
+                // converts to alphabet index for uppercase
+                if (isupper(key_Value))
+                {
+                    key_Value = (key_Value -  'A');
+                }
  
-            // converts to alphabet index for lowercase
-            if (islower(key_Value))
-            {
-                key_Value = (key_Value - 'a');
-            }
+                // converts to alphabet index for lowercase
+                if (islower(key_Value))
+                {
+                    key_Value = (key_Value - 'a');
+                }
                
-            // encryption
-            shift = (plain[i] + key_Value);
+                // encryption
+                shift = (plain[i] + key_Value);
  
-            // wrapping after Z for uppercase letters
-            if (isupper(plain[i]) && (shift > 'Z'))
-            {
-                shift = (shift - ALPHABET_LEN);
-            }
+                // wrapping after Z for uppercase letters
+                if (isupper(plain[i]) && (shift > 'Z'))
+                {
+                    shift = (shift - ALPHABET_LEN);
+                }
  
-            // wrapping after z for lowercase letters
-            if (islower(plain[i]) && (shift > 'z'))
-            {
-                shift = (shift - ALPHABET_LEN);
-            }
+                // wrapping after z for lowercase letters
+                if (islower(plain[i]) && (shift > 'z'))
+                {
+                    shift = (shift - ALPHABET_LEN);
+                }
  
-             // if character is alphabetical, print encrypted result
-             if (isalpha(plain[i]))
-            {
-                printf("%c", shift);
-            }
+                // if character is alphabetical, print encrypted result
+                if (isalpha(plain[i]))
+                {
+                    printf("%c", shift);
+                }
  
-            // print spaces 
-            else
-            {
-                printf("%c", plain[i]);
-            }
+                // print spaces 
+                else
+                {
+                    printf("%c", plain[i]);
+                }
  
             }
         }
