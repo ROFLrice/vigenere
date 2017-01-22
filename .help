@@ -3,8 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 
-//getting segmentation error
-
 // define number of characters in alphabet
 #define ALPHABET_LEN 26
 
@@ -12,19 +10,33 @@
 int main(int argc, string argv[])
 {
     // declare variables
-    int shift;
-    int key_Value;
-    
+    int key_Value = 0;
+    bool check;
     //closes program if user doesn't provide command line argument
-    if(argc != 2 || isalpha(argv[1]) == false)
+    if(argc != 2)
     {
-        printf("Please provide valid alphabetic key\n");
+        printf("Please provide key\n");
         return 1;
     }
-    //when user provides valid alphabetic argument
-    else//error here 'expected expression'
+    else
     {
-        //save key as a string
+    //check to make sure argument is alphabetical
+        for(int c = 0; c<strlen(argv[1]);c++)
+        {
+            if(isalpha(argv[1][c]))
+            {
+                check = true;
+            }
+            else
+            {
+                check = false;
+                printf("Please provide valid alphabetic key\n");
+                return 1;
+            }
+        }
+    }
+    
+        //save argument in key
         string key = argv[1];
         
         //promt user for text
@@ -36,68 +48,46 @@ int main(int argc, string argv[])
             //label for cipher text
             printf("ciphertext: ");
         
-            //iterate over the string in plain
-            for(int i = 0, j = 0, length = strlen(plain); i < length; i++, j++)
+            //iterate over the string in plain and string in key
+            for(int i = 0, j = 0, length = strlen(plain); i < length; i++)
             {
-                // start the key again if key shorter than PlainText
-                if (j >= strlen(key))
-                {
-                    j = 0;
-                }
+                //variable to hold letter being encrypted
+                int let = 0;    
                 
+                //wrap around key 
+                if (j >= strlen(key))
+                    {
+                        j = 0;
+                    }
+                
+                //tracks place in keyword
                 key_Value = key[j];
                 
-                // skip key[j] if plain[i] != alpha character
-                if (!isalpha(plain[i]))
-                {
-                    j = (j - 1);
-                }  
-            
-                // converts to alphabet index for uppercase
-                if (isupper(key_Value))
+                // Check if text is upper case or lower case and encypt accordingly
+                if (isupper(plain[i]))
                 {
                     key_Value = (key_Value -  'A');
+                    //convert to alphabet index for equation then back to ascII for printf
+                    let = (((int)plain[i] - 'A' + key_Value) % ALPHABET_LEN) + 'A';
+                    printf("%c", (char) let);
+                    j++;
                 }
- 
-                // converts to alphabet index for lowercase
-                if (islower(key_Value))
+                else if (islower(plain[i]))
                 {
-                    key_Value = (key_Value - 'a');
+                    key_Value = (key_Value -  'a');
+                    let = (((int)plain[i] - 'a' + key_Value) % ALPHABET_LEN) + 'a';
+                    printf("%c", (char) let);
+                    j++;
                 }
-               
-                // encryption
-                shift = (plain[i] + key_Value);
- 
-                // wrapping after Z for uppercase letters
-                if (isupper(plain[i]) && (shift > 'Z'))
-                {
-                    shift = (shift - ALPHABET_LEN);
-                }
- 
-                // wrapping after z for lowercase letters
-                if (islower(plain[i]) && (shift > 'z'))
-                {
-                    shift = (shift - ALPHABET_LEN);
-                }
- 
-                // if character is alphabetical, print encrypted result
-                if (isalpha(plain[i]))
-                {
-                    printf("%c", shift);
-                }
- 
-                // print spaces 
                 else
                 {
-                    printf("%c", plain[i]);
+                    //for spaces
+                    printf("%c", plain[i]); 
                 }
- 
+            
             }
+            printf("\n");
+            return 0;
         }
-    }
-    //print new line
-    printf("\n");
-    return 0;
-}   
-               
+}
                
